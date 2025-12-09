@@ -55,7 +55,7 @@ def pick_and_place(pick_and_place):
         pick_pose = pick_and_place['pick_pose']
         place_pose = pick_and_place_data['place_pose']
 
-        x, y, z, roll, pitch, yaw = HOME_POS
+        x, y, z, roll, pitch, yaw = [204.6, 0, 346.1, 179.9, 0, 0]
 
         print("Open gripper")
         if GRIPPER_TYPE == 'vacuum':
@@ -90,17 +90,19 @@ def pick_and_place(pick_and_place):
         if GRIPPER_TYPE == 'vacuum':
             arm.set_vacuum_gripper(
                 on=True, wait=True, timeout=3, hardware_version=2)
-            grasped = arm.get_vacuum_gripper(hardware_version=2)
+            _, grasped = arm.get_vacuum_gripper(hardware_version=2)
             retries = 3
             while grasped != 1 and retries > 0:
+                retries = retries - 1
                 arm.set_vacuum_gripper(
-                    on=False, wait=True, timeout=3, hardware_version=2)
+                    on=False, wait=True, timeout=5, hardware_version=2)
                 z = z - 5
                 print("Move to pick Z position:", x, y, z, roll, pitch, yaw)
                 move_to_xyzrpy(x, y, z, roll, pitch, yaw, status='BUSY')
                 arm.set_vacuum_gripper(
-                    on=True, wait=True, timeout=3, hardware_version=2)
-                grasped = arm.get_vacuum_gripper(hardware_version=2)
+                    on=True, wait=True, timeout=5, hardware_version=2)
+                _, grasped = arm.get_vacuum_gripper(hardware_version=2)
+                print("grasped", grasped)
         else:
             arm.set_gripper_position(GRIPPER_OPEN_POS, wait=True)
 

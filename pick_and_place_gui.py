@@ -42,6 +42,8 @@ class PickAndPlaceApp:
         global search_ratio, search_area_ratio, search_area
         if event == cv2.EVENT_LBUTTONDOWN and not self.processing:
             # Check if button is pressed
+            x = x / self.config['scale_factor']
+            y = y / self.config['scale_factor']
             for btn in self.buttons:
                 if (btn["x"] <= x <= btn["x"] + btn["width"] and
                         btn["y"] <= y <= btn["y"] + btn["height"]):
@@ -110,12 +112,12 @@ class PickAndPlaceApp:
         if self.robot_status.get("status", "UNKNOWN") == "OK":
             data = {
                 "pick_pose": {
-                    "x": pick_pose['x'],
-                    "y": pick_pose['y'],
-                    "z": 170,
+                    "x": pick_pose['x'] + self.objects[self.selected_object]['offset']['x'],
+                    "y": pick_pose['y'] + self.objects[self.selected_object]['offset']['y'],
+                    "z": -25,
                     "roll_degrees": 0,
                     "pitch_degrees": 180,
-                    "yaw_degrees": pick_pose['yaw']
+                    "yaw_degrees": 0  # pick_pose['yaw']
                 },
                 "place_pose": {
                     "x": self.config['place_pose']['x'],

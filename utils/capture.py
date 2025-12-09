@@ -28,7 +28,8 @@ while True:
         print("Stream error.")
         break
 
-    cv2.imshow("Capture", frame)
+    cv2.imshow("Capture", cv2.resize(
+                frame, None, fx=CONFIG['scale_factor'], fy=CONFIG['scale_factor']))
     key = cv2.waitKey(1)
 
     if key == 27:  # ESC
