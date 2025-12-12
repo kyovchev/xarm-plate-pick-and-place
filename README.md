@@ -45,3 +45,7 @@ There are several helper files in the `utils` folder:
 - `detect_with_coordinates.ipynb` demonstrates the object segmentation, detection and global frame coordinates calculation in a Jyputer Notebook.
 - `find_markers.ipynb` helper notebook for getting the IDs of the of AruCo tags.
 - `xarm_emulator.py` is the XArmAPI emulator.
+
+## Known Limitations and Future Updates
+
+Perspective transform and camera checkboard calibration should be added.
